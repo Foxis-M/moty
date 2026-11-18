@@ -1,0 +1,1380 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Уроки с Моти 🐱</title>
+
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+      :root {
+          --pink: #ed8fbb;
+          --dark-pink: #b64f89;
+          --light-pink: #ffe2ef;
+          --text: #754c66;
+      }
+
+      * {
+          box-sizing: border-box;
+      }
+
+      body {
+          margin: 0;
+          min-height: 100vh;
+          font-family: 'Nunito', Arial, sans-serif;
+          color: var(--text);
+          background: linear-gradient(
+                  135deg,
+                  #fff1f8,
+                  #ffd9eb,
+                  #f4e1ff
+          );
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 25px 15px;
+          overflow-x: hidden;
+      }
+
+      .container {
+          width: 100%;
+          max-width: 650px;
+          position: relative;
+          z-index: 2;
+      }
+
+      header {
+          text-align: center;
+      }
+
+      header h1 {
+          color: var(--dark-pink);
+          font-size: 34px;
+          font-weight: 900;
+          margin: 5px 0;
+      }
+
+      .subtitle {
+          font-size: 15px;
+          color: #a97696;
+      }
+
+      .label {
+          font-size: 12px;
+          letter-spacing: 3px;
+          color: #d475a7;
+          font-weight: 900;
+      }
+
+      /* Фоновые сердечки */
+
+      .heart {
+          position: fixed;
+          color: #e998c2;
+          opacity: 0.4;
+          font-size: 25px;
+          animation: floatHeart 7s ease-in-out infinite;
+          pointer-events: none;
+      }
+
+      .heart:nth-child(1) {
+          top: 12%;
+          left: 8%;
+      }
+
+      .heart:nth-child(2) {
+          top: 25%;
+          right: 9%;
+          animation-delay: 2s;
+      }
+
+      .heart:nth-child(3) {
+          bottom: 15%;
+          left: 12%;
+          animation-delay: 4s;
+      }
+
+      .heart:nth-child(4) {
+          bottom: 20%;
+          right: 10%;
+          animation-delay: 1s;
+      }
+
+      @keyframes floatHeart {
+          0%, 100% {
+              transform: translateY(0) rotate(0);
+          }
+
+          50% {
+              transform: translateY(-30px) rotate(15deg);
+          }
+      }
+
+      /* Котик */
+
+      .cat-area {
+          height: 240px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+      }
+
+      .cat {
+          width: 215px;
+          height: 215px;
+          overflow: visible;
+          filter: drop-shadow(0 12px 12px #d98eb650);
+          animation: catFloat 3s ease-in-out infinite;
+      }
+
+      @keyframes catFloat {
+          0%, 100% {
+              transform: translateY(0);
+          }
+
+          50% {
+              transform: translateY(-12px) rotate(2deg);
+          }
+      }
+
+      .cat.talking {
+          animation: catTalk 0.3s infinite alternate;
+      }
+
+      @keyframes catTalk {
+          from {
+              transform: rotate(-3deg) scale(1);
+          }
+
+          to {
+              transform: rotate(3deg) scale(1.04);
+          }
+      }
+
+      .eye {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: blink 5s infinite;
+      }
+
+      @keyframes blink {
+          0%, 43%, 47%, 100% {
+              transform: scaleY(1);
+          }
+
+          45% {
+              transform: scaleY(0.1);
+          }
+      }
+
+      .paw {
+          transform-origin: 145px 125px;
+          animation: wave 1.5s ease-in-out infinite alternate;
+      }
+
+      @keyframes wave {
+          from {
+              transform: rotate(0deg);
+          }
+
+          to {
+              transform: rotate(-15deg);
+          }
+      }
+
+      .mouth-open {
+          display: none;
+      }
+
+      .cat.talking .mouth-open {
+          display: block;
+      }
+
+      .cat.talking .mouth-closed {
+          display: none;
+      }
+
+      .sparkle {
+          position: absolute;
+          font-size: 25px;
+          color: #e78fbd;
+          animation: sparkle 2s infinite alternate;
+      }
+
+      .sparkle.left {
+          left: 15%;
+          top: 35%;
+      }
+
+      .sparkle.right {
+          right: 15%;
+          top: 25%;
+          animation-delay: 1s;
+      }
+
+      @keyframes sparkle {
+          from {
+              transform: scale(0.8) translateY(0);
+              opacity: 0.5;
+          }
+
+          to {
+              transform: scale(1.3) translateY(-10px);
+              opacity: 1;
+          }
+      }
+
+      /* Карточка урока */
+
+      .lesson-card {
+          background: rgba(255, 255, 255, 0.88);
+          border: 2px solid white;
+          border-radius: 28px;
+          padding: 25px;
+          box-shadow: 0 15px 40px #d48aa540;
+          backdrop-filter: blur(12px);
+          animation: cardAppear 0.6s ease;
+      }
+
+      @keyframes cardAppear {
+          from {
+              opacity: 0;
+              transform: translateY(20px);
+          }
+
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+
+      .lesson-header {
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+          color: #c479a2;
+          font-size: 12px;
+          font-weight: 900;
+      }
+
+      .progress {
+          height: 9px;
+          background: #fbe3ef;
+          border-radius: 20px;
+          margin: 15px 0 20px;
+          overflow: hidden;
+      }
+
+      .progress-fill {
+          width: 10%;
+          height: 100%;
+          background: linear-gradient(
+                  90deg,
+                  #f5a0c8,
+                  #d66ba4
+          );
+          border-radius: 20px;
+          transition: width 0.5s ease;
+      }
+
+      #topic {
+          color: #a4477e;
+          font-size: 23px;
+          margin: 0 0 15px;
+      }
+
+      #speech {
+          font-size: 17px;
+          line-height: 1.8;
+          min-height: 150px;
+      }
+
+      /* Кнопки */
+
+      .controls {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 20px;
+      }
+
+      .voice-controls {
+          display: flex;
+          gap: 8px;
+      }
+
+      button {
+          border: none;
+          padding: 12px 17px;
+          border-radius: 15px;
+          font-family: inherit;
+          font-weight: 900;
+          cursor: pointer;
+          transition: 0.25s;
+      }
+
+      button:hover {
+          transform: translateY(-3px);
+      }
+
+      button:active {
+          transform: scale(0.95);
+      }
+
+      button:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+          transform: none;
+      }
+
+      .btn-light {
+          background: #fbe3ef;
+          color: #a64c82;
+      }
+
+      .btn-primary {
+          background: linear-gradient(
+                  120deg,
+                  #ed8fbb,
+                  #d56ba5
+          );
+          color: white;
+          box-shadow: 0 5px 12px #dc8eb350;
+      }
+
+      /* Точки навигации */
+
+      .dots {
+          display: flex;
+          justify-content: center;
+          gap: 7px;
+          margin: 20px 0;
+      }
+
+      .dot {
+          width: 9px;
+          height: 9px;
+          padding: 0;
+          border-radius: 20px;
+          background: #e9bed4;
+      }
+
+      .dot.active {
+          width: 25px;
+          background: #d66ba4;
+      }
+
+      footer {
+          text-align: center;
+          font-size: 13px;
+          color: #b87b9d;
+      }
+
+      @media (max-width: 480px) {
+          header h1 {
+              font-size: 27px;
+          }
+
+          .lesson-card {
+              padding: 20px;
+          }
+
+          #topic {
+              font-size: 20px;
+          }
+
+          #speech {
+              font-size: 15px;
+              min-height: 170px;
+          }
+
+          button {
+              padding: 10px 12px;
+              font-size: 12px;
+          }
+
+          .cat-area {
+              height: 210px;
+          }
+
+          .cat {
+              width: 190px;
+              height: 190px;
+          }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+              animation-duration: 0.01ms !important;
+              transition-duration: 0.01ms !important;
+          }
+      }
+
+
+      /* Затемнение фона */
+
+      .certificate-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(100, 40, 80, 0.55);
+          backdrop-filter: blur(8px);
+          display: none;
+          justify-content: center;
+          align-items: flex-start;
+          z-index: 1000;
+          padding: 25px 15px;
+          overflow-y: auto;
+      }
+
+      .certificate-overlay.show {
+          display: flex;
+          animation: overlayAppear 0.4s ease;
+      }
+
+      @keyframes overlayAppear {
+          from { opacity: 0; }
+          to { opacity: 1; }
+      }
+
+      /* Сертификат */
+
+      .certificate {
+          position: relative;
+          width: 100%;
+          max-width: 520px;
+          margin: auto;
+          padding: 35px 25px;
+          text-align: center;
+          background: linear-gradient(
+                  145deg,
+                  #fffdfd,
+                  #fff0f7
+          );
+          border: 8px double #eaa2c5;
+          border-radius: 25px;
+          box-shadow: 0 20px 60px #7d315b66;
+          animation: certificateAppear 0.6s ease;
+      }
+
+      @keyframes certificateAppear {
+          from {
+              opacity: 0;
+              transform: translateY(60px) scale(0.8);
+          }
+
+          to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+          }
+      }
+
+      .close-certificate {
+          position: absolute;
+          top: 10px;
+          right: 12px;
+          background: #ffe0ee;
+          color: #a54b81;
+          border-radius: 50%;
+          width: 35px;
+          height: 35px;
+          padding: 0;
+          font-size: 24px;
+      }
+
+      .confetti {
+          font-size: 28px;
+          animation: confettiFloat 2s infinite alternate;
+      }
+
+      @keyframes confettiFloat {
+          from { transform: translateY(0); }
+          to { transform: translateY(-10px); }
+      }
+
+      .certificate-icon {
+          font-size: 55px;
+          animation: iconBounce 1.5s infinite;
+      }
+
+      @keyframes iconBounce {
+          50% { transform: translateY(-10px); }
+      }
+
+      .certificate-small {
+          font-size: 11px;
+          letter-spacing: 3px;
+          color: #c37da3;
+          font-weight: 900;
+      }
+
+      .certificate h2 {
+          font-size: 36px;
+          color: #b64f89;
+          margin: 10px 0;
+          font-weight: 900;
+      }
+
+      .certificate-subtitle {
+          color: #ad7194;
+          font-size: 14px;
+      }
+
+      .certificate-line {
+          height: 2px;
+          width: 65%;
+          background: #e9a1c5;
+          margin: 20px auto;
+      }
+
+      .certificate-text {
+          font-size: 15px;
+          line-height: 1.7;
+      }
+
+      .certificate h3 {
+          color: #a4477e;
+          font-size: 20px;
+          margin: 18px 0;
+      }
+
+      .certificate-award {
+          color: #c16a9c;
+          font-size: 18px;
+          font-weight: 900;
+          margin: 20px 0;
+      }
+
+      /* Печать лапки */
+
+      .paw-stamp {
+          width: 125px;
+          height: 125px;
+          margin: 20px auto;
+          border: 4px double #d775a8;
+          border-radius: 50%;
+          color: #c65e96;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          transform: rotate(-12deg);
+          box-shadow: inset 0 0 0 5px #ffe2ef;
+          animation: stampAppear 0.7s ease both;
+      }
+
+      .paw-stamp span {
+          font-size: 48px;
+      }
+
+      .paw-stamp small {
+          font-size: 9px;
+          font-weight: 900;
+      }
+
+      @keyframes stampAppear {
+          from {
+              transform: scale(2) rotate(-30deg);
+              opacity: 0;
+          }
+
+          to {
+              transform: scale(1) rotate(-12deg);
+              opacity: 1;
+          }
+      }
+
+      .certificate-signature {
+          font-style: italic;
+          color: #a65a88;
+          font-size: 15px;
+          margin: 15px 0 25px;
+      }
+
+      /* Подарок */
+
+      .gift-section {
+          background: #ffe4f0;
+          border-radius: 22px;
+          padding: 22px 15px;
+          border: 2px dashed #e99dc2;
+      }
+
+      .gift-title {
+          color: #ac4f83;
+          font-size: 21px;
+          font-weight: 900;
+      }
+
+      .chocolate {
+          font-size: 75px;
+          margin: 10px 0;
+          animation: chocolateFloat 2s infinite;
+      }
+
+      @keyframes chocolateFloat {
+          0%, 100% {
+              transform: translateY(0) rotate(-8deg);
+          }
+
+          50% {
+              transform: translateY(-12px) rotate(8deg);
+          }
+      }
+
+      #giftMessage {
+          font-size: 14px;
+          line-height: 1.7;
+      }
+
+      .gift-button,
+      .restart-button {
+          background: linear-gradient(
+                  120deg,
+                  #ed8fbb,
+                  #d56ba5
+          );
+          color: white;
+          padding: 13px 20px;
+          border-radius: 15px;
+          margin-top: 10px;
+      }
+
+      .restart-button {
+          background: #f8d6e7;
+          color: #a64c82;
+          margin-top: 20px;
+      }
+
+      @media (max-width: 480px) {
+          .certificate {
+              padding: 25px 15px;
+          }
+
+          .certificate h2 {
+              font-size: 29px;
+          }
+      }
+  </style>
+</head>
+
+
+<!-- Окно с сертификатом -->
+<div class="certificate-overlay" id="certificateOverlay">
+  <div class="certificate">
+
+    <button class="close-certificate"
+            onclick="closeCertificate()">×</button>
+
+    <div class="confetti">✨ 💗 ✨</div>
+
+    <div class="certificate-icon">🎓</div>
+
+    <div class="certificate-small">
+      КОШАЧЬЯ АКАДЕМИЯ МОТИ
+    </div>
+
+    <h2>Сертификат</h2>
+
+    <div class="certificate-subtitle">
+      об успешном прохождении обучения
+    </div>
+
+    <div class="certificate-line"></div>
+
+    <p class="certificate-text">
+      Настоящим подтверждается, что
+      <strong>почётный ученик Моти</strong>
+      успешно изучил тему:
+    </p>
+
+    <h3>
+      «Основы сетевого взаимодействия
+      мобильных приложений»
+    </h3>
+
+    <p class="certificate-text">
+      За любознательность, старание
+      и отличную работу присваивается
+      звание:
+    </p>
+
+    <div class="certificate-award">
+      ✨ Мастер сетевых технологий ✨
+    </div>
+
+    <!-- Печать в виде лапки -->
+    <div class="paw-stamp">
+      <span>🐾</span>
+      <small>ОДОБРЕНО МОТИ</small>
+    </div>
+
+    <div class="certificate-signature">
+      С любовью, профессор Моти ♡
+    </div>
+
+    <div class="gift-section">
+
+      <div class="gift-title">
+        🎁 Подарок от Моти!
+      </div>
+
+      <div class="chocolate" id="chocolate">
+        🍫
+      </div>
+
+      <p id="giftMessage">
+        Мяу! Ты отлично справился!
+        За твои старания я дарю тебе
+        волшебную шоколадку!
+      </p>
+
+      <button class="gift-button"
+              onclick="takeChocolate()">
+        🍫 Забрать шоколадку
+      </button>
+
+    </div>
+
+    <button class="restart-button"
+            onclick="restartLessons()">
+      🐾 Пройти уроки заново
+    </button>
+
+  </div>
+</div>
+
+<body>
+
+<!-- Украшения -->
+
+<div class="heart">♥</div>
+<div class="heart">✿</div>
+<div class="heart">♡</div>
+<div class="heart">✧</div>
+
+<div class="container">
+
+  <header>
+    <div class="label">✦ УЧИМСЯ ВМЕСТЕ ✦</div>
+
+    <h1>Уроки с Моти ♡</h1>
+
+    <div class="subtitle">
+      Основы сетевого взаимодействия мобильных приложений
+    </div>
+  </header>
+
+  <!-- Анимированный котик -->
+
+  <div class="cat-area">
+
+    <span class="sparkle left">✦</span>
+    <span class="sparkle right">♥</span>
+
+    <svg
+      class="cat"
+      id="cat"
+      viewBox="0 0 200 200"
+      role="img"
+      aria-label="Белый котик Моти"
+    >
+
+      <!-- Тень -->
+
+      <ellipse
+        cx="101"
+        cy="184"
+        rx="65"
+        ry="9"
+        fill="#e8a9c5"
+        opacity="0.35"
+      />
+
+      <!-- Уши -->
+
+      <path
+        d="M54 112 Q36 52 52 22
+           Q77 31 91 55
+           Q112 48 130 55
+           Q148 28 168 22
+           Q177 65 155 115Z"
+        fill="#fffafc"
+        stroke="#e6acc8"
+        stroke-width="3"
+      />
+
+      <!-- Внутренняя часть ушей -->
+
+      <path
+        d="M57 35 Q57 60 75 66 L78 50Z"
+        fill="#f6b4d2"
+      />
+
+      <path
+        d="M146 50 L163 35
+           Q165 61 149 67Z"
+        fill="#f6b4d2"
+      />
+
+      <!-- Голова -->
+
+      <ellipse
+        cx="103"
+        cy="111"
+        rx="74"
+        ry="66"
+        fill="#fffafc"
+        stroke="#e6acc8"
+        stroke-width="3"
+      />
+
+      <!-- Щёчки -->
+
+      <ellipse
+        cx="61"
+        cy="116"
+        rx="14"
+        ry="9"
+        fill="#f9c4d9"
+      />
+
+      <ellipse
+        cx="145"
+        cy="116"
+        rx="14"
+        ry="9"
+        fill="#f9c4d9"
+      />
+
+      <!-- Глаза -->
+
+      <g class="eye">
+
+        <ellipse
+          cx="76"
+          cy="99"
+          rx="6"
+          ry="9"
+          fill="#70475f"
+        />
+
+        <ellipse
+          cx="127"
+          cy="99"
+          rx="6"
+          ry="9"
+          fill="#70475f"
+        />
+
+        <circle
+          cx="78"
+          cy="96"
+          r="2"
+          fill="white"
+        />
+
+        <circle
+          cx="129"
+          cy="96"
+          r="2"
+          fill="white"
+        />
+
+      </g>
+
+      <!-- Носик -->
+
+      <path
+        d="M97 112 Q102 117 107 112
+           Q103 108 97 112Z"
+        fill="#e78caf"
+      />
+
+      <!-- Закрытый рот -->
+
+      <g
+        class="mouth-closed"
+        stroke="#a86c88"
+        stroke-width="2"
+        fill="none"
+        stroke-linecap="round"
+      >
+
+        <path
+          d="M102 116 Q97 126 92 119"
+        />
+
+        <path
+          d="M102 116 Q107 126 112 119"
+        />
+
+      </g>
+
+      <!-- Открытый рот -->
+
+      <ellipse
+        class="mouth-open"
+        cx="102"
+        cy="122"
+        rx="8"
+        ry="10"
+        fill="#b9628b"
+      />
+
+      <!-- Усики -->
+
+      <g
+        stroke="#d8a4bc"
+        stroke-width="1.8"
+        stroke-linecap="round"
+      >
+
+        <path d="M58 115 L34 109" />
+        <path d="M58 121 L33 123" />
+        <path d="M146 115 L169 109" />
+        <path d="M146 121 L171 123" />
+
+      </g>
+
+      <!-- Бантик -->
+
+      <path
+        d="M82 158 Q103 175 124 158
+           L118 183 L88 183Z"
+        fill="#f4a3c9"
+      />
+
+      <path
+        d="M100 168 L104 176 L108 168"
+        fill="#fff0f6"
+      />
+
+      <!-- Левая лапка -->
+
+      <ellipse
+        cx="68"
+        cy="170"
+        rx="24"
+        ry="15"
+        fill="#fffafc"
+        stroke="#e6acc8"
+        stroke-width="2"
+      />
+
+      <!-- Правая лапка -->
+
+      <g class="paw">
+
+        <ellipse
+          cx="147"
+          cy="144"
+          rx="18"
+          ry="24"
+          fill="#fffafc"
+          stroke="#e6acc8"
+          stroke-width="2"
+        />
+
+        <ellipse
+          cx="147"
+          cy="135"
+          rx="8"
+          ry="6"
+          fill="#f7bdd7"
+        />
+
+        <circle cx="138" cy="124" r="3"
+                fill="#f7bdd7" />
+
+        <circle cx="147" cy="121" r="3"
+                fill="#f7bdd7" />
+
+        <circle cx="156" cy="124" r="3"
+                fill="#f7bdd7" />
+
+      </g>
+
+    </svg>
+
+  </div>
+
+  <!-- Карточка урока -->
+
+  <main class="lesson-card">
+
+    <div class="lesson-header">
+
+      <span id="counter">УРОК 01 / 10</span>
+
+      <span>♡ КОТИК ОБЪЯСНЯЕТ</span>
+
+    </div>
+
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <h2 id="topic"></h2>
+
+    <p id="speech" aria-live="polite"></p>
+
+    <div class="controls">
+
+      <button
+        class="btn-light"
+        id="prev"
+        onclick="changeSlide(-1)"
+      >
+        ← Назад
+      </button>
+
+      <div class="voice-controls">
+
+        <button
+          class="btn-light"
+          id="voiceButton"
+          onclick="speak()"
+        >
+          🔊 Слушать
+        </button>
+
+        <button
+          class="btn-light"
+          onclick="stopSpeech()"
+          aria-label="Остановить озвучивание"
+        >
+          ■
+        </button>
+
+      </div>
+
+      <button
+        class="btn-primary"
+        id="next"
+        onclick="changeSlide(1)"
+      >
+        Далее →
+      </button>
+
+    </div>
+
+  </main>
+
+  <div class="dots" id="dots"></div>
+
+  <footer>
+    Сделано с любовью и кошачьими лапками 🐾
+  </footer>
+
+</div>
+
+<script>
+
+  // Все уроки
+
+  const lessons = [
+    {
+      title: "Приветствие",
+      text: "Мяу! Привет! Я Моти, твой пушистый помощник. Сегодня мы узнаем, как мобильные приложения общаются с серверами и интернетом. Обещаю, будет интересно!"
+    },
+
+    {
+      title: "Что такое сетевое взаимодействие?",
+      text: "Сетевое взаимодействие мобильных приложений — это процесс передачи и получения данных между мобильным устройством и удалённым сервером через интернет.\n" +
+        "\n" +
+        "Благодаря сетевому взаимодействию приложения могут отправлять сообщения, загружать фотографии, показывать новости, получать информацию о погоде и сохранять данные пользователей.\n" +
+        "\n" +
+        "Например, когда человек отправляет сообщение в мессенджере, приложение передаёт его на сервер, который обеспечивает доставку получателю."
+    },
+
+    {
+      title: "Принцип работы",
+      text: "Большинство мобильных приложений используют архитектуру «клиент — сервер».\n" +
+        "- Клиент — мобильное приложение, которое отправляет запрос.\n" +
+        "- Сервер — компьютер или система, которая обрабатывает запрос и отправляет ответ.\n" +
+        "- Сеть — обеспечивает передачу информации между клиентом и сервером.\n" +
+        "Процесс происходит следующим образом: пользователь выполняет действие в приложении, оно отправляет запрос на сервер, сервер обрабатывает информацию и возвращает результат.\n" +
+        "Представь кафе! Клиент делает заказ, а кухня его выполняет. Так же приложение отправляет запрос серверу, а сервер обрабатывает его и возвращает ответ."
+    },
+
+    {
+      title: "Основные технологии",
+      text: "Для сетевого взаимодействия используются следующие технологии:\n" +
+        "1. HTTP — протокол передачи данных между приложением и сервером.\n" +
+        "2. HTTPS — защищённая версия HTTP, использующая шифрование.\n" +
+        "3. API — интерфейс, позволяющий приложению обращаться к функциям и данным сервера.\n" +
+        "4. JSON — текстовый формат для хранения и передачи структурированных данных.\n" +
+        "5. WebSocket — технология постоянного двустороннего соединения, которая применяется, например, в чатах и онлайн-играх."
+    },
+
+    {
+      title: "Виды сетевых запросов",
+      text: "Наиболее распространённые методы HTTP:\n" +
+        "Метод\tНазначение\n" +
+        "GET\tПолучение данных с сервера\n" +
+        "POST\tОтправка данных на сервер\n" +
+        "PUT\tПолное обновление ресурса\n" +
+        "PATCH\tЧастичное изменение данных\n" +
+        "DELETE\tУдаление данных\n" +
+        "\n" +
+        "Например, при открытии списка товаров приложение использует GET-запрос, а при отправке формы регистрации может использовать POST-запрос."
+    },
+
+    {
+      title: "Безопасность сетевого взаимодействия",
+      text: "При передаче данных важно обеспечивать безопасность пользователей.\n" +
+        "\n" +
+        "Для этого используются HTTPS, шифрование, авторизация" +
+        "и специальные токены доступа. Они помогают защищать личную информацию и предотвращать несанкционированный доступ. Таким образом никто не узнает где вы прячете свои вкусняшки"
+    },
+
+    {
+      title: "Проблемы сетевого взаимодействия",
+      text: "Проблемы сетевого взаимодействия\n" +
+        "Во время работы мобильных приложений могут возникать различные проблемы: медленный интернет, потеря соединения, перегрузка сервера или ошибки передачи данных.\n" +
+        "\n" +
+        "Для их решения разработчики используют обработку ошибок, повторные запросы и кэширование — временное сохранение информации на устройстве. Это позволяет ускорить загрузку и иногда работать без интернета."
+    },
+
+    {
+      title: "Оптимизация работы",
+      text: "Чтобы приложение работало быстро и не расходовало слишком много мобильного трафика и заряда батареи, разработчики сокращают количество лишних запросов, сжимают передаваемые данные и используют кэширование"
+    },
+
+    {
+      title: "Заключение",
+      text: "Сетевое взаимодействие — важная часть разработки современных мобильных приложений. Оно обеспечивает обмен информацией между пользователями и серверами, позволяет получать актуальные данные и пользоваться онлайн-функциями. Для качественной работы приложения необходимо учитывать скорость соединения, безопасность, обработку ошибок и экономию ресурсов устройства."
+    },
+
+    {
+      title: "Конец",
+      text: "Мур-мур! Теперь ты знаешь основы сетевого взаимодействия! Оно помогает приложениям обмениваться сообщениями, получать данные и работать с онлайн-сервисами. Спасибо за внимание!"
+    }
+  ];
+
+  let current = 0;
+  let speechToken = 0;
+
+  const cat = document.getElementById("cat");
+  const topic = document.getElementById("topic");
+  const speech = document.getElementById("speech");
+  const voiceButton = document.getElementById("voiceButton");
+
+  // Остановка голоса
+
+  function stopSpeech() {
+    speechToken++;
+
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+
+    cat.classList.remove("talking");
+    voiceButton.textContent = "🔊 Слушать";
+  }
+
+  // Показ урока
+
+  function showSlide() {
+    stopSpeech();
+
+    const lesson = lessons[current];
+
+    topic.textContent = lesson.title;
+    speech.textContent = lesson.text;
+
+    document.getElementById("counter").textContent =
+      `УРОК ${String(current + 1).padStart(2, "0")} / ${lessons.length}`;
+
+    document.getElementById("progressFill").style.width =
+      `${((current + 1) / lessons.length) * 100}%`;
+
+    document.getElementById("prev").disabled =
+      current === 0;
+
+    document.getElementById("next").disabled = false;
+
+    document.getElementById("next").textContent =
+      current === lessons.length - 1
+        ? "Готово ♡"
+        : "Далее →";
+
+    updateDots();
+  }
+
+  // Переключение уроков
+
+
+  function changeSlide(direction) {
+
+    // Последний урок — показываем сертификат
+    if (
+      direction === 1 &&
+      current === lessons.length - 1
+    ) {
+      showCertificate();
+      return;
+    }
+
+    const next = current + direction;
+
+    if (next < 0 || next >= lessons.length) {
+      return;
+    }
+
+    current = next;
+    showSlide();
+  }
+
+  // Открытие сертификата
+
+  function showCertificate() {
+    stopSpeech();
+
+    document.getElementById(
+      "certificateOverlay"
+    ).classList.add("show");
+
+    document.getElementById("giftMessage").textContent =
+      "Мяу! Ты отлично справился! " +
+      "За твои старания я дарю тебе " +
+      "волшебную шоколадку!";
+
+    document.getElementById("chocolate").textContent =
+      "🍫";
+  }
+
+  // Закрытие сертификата
+
+  function closeCertificate() {
+    document.getElementById(
+      "certificateOverlay"
+    ).classList.remove("show");
+  }
+
+  // Получение шоколадки
+
+  function takeChocolate() {
+
+    const chocolate =
+      document.getElementById("chocolate");
+
+    const message =
+      document.getElementById("giftMessage");
+
+    chocolate.textContent = "😻🍫";
+
+    message.textContent =
+      "Мур-р-р! Шоколадка теперь твоя! " +
+      "Моти очень гордится тобой! 💗";
+
+    chocolate.style.animation =
+      "iconBounce 0.5s infinite";
+  }
+
+  // Повторное прохождение
+
+  function restartLessons() {
+    closeCertificate();
+
+    current = 0;
+    showSlide();
+
+    document.getElementById(
+      "chocolate"
+    ).style.animation = "";
+  }
+
+
+  // Озвучивание
+
+  function speak() {
+    if (!("speechSynthesis" in window)) {
+      alert("Браузер не поддерживает озвучивание.");
+      return;
+    }
+
+    stopSpeech();
+
+    const token = speechToken;
+
+    const utterance = new SpeechSynthesisUtterance(
+      lessons[current].text
+    );
+
+    utterance.lang = "ru-RU";
+    utterance.rate = 0.92;
+    utterance.pitch = 1.2;
+
+    const voices = speechSynthesis.getVoices();
+
+    const russianVoice = voices.find(voice =>
+      voice.lang.toLowerCase().startsWith("ru")
+    );
+
+    if (russianVoice) {
+      utterance.voice = russianVoice;
+    }
+
+    utterance.onstart = () => {
+      if (token !== speechToken) return;
+
+      cat.classList.add("talking");
+      voiceButton.textContent = "♫ Говорит...";
+    };
+
+    const finish = () => {
+      if (token !== speechToken) return;
+
+      cat.classList.remove("talking");
+      voiceButton.textContent = "🔊 Слушать";
+    };
+
+    utterance.onend = finish;
+    utterance.onerror = finish;
+
+    speechSynthesis.speak(utterance);
+  }
+
+  // Точки навигации
+
+  const dotsContainer = document.getElementById("dots");
+
+  lessons.forEach((lesson, index) => {
+    const dot = document.createElement("button");
+
+    dot.className = "dot";
+    dot.setAttribute(
+      "aria-label",
+      `Перейти к уроку ${index + 1}`
+    );
+
+    dot.onclick = () => {
+      current = index;
+      showSlide();
+    };
+
+    dotsContainer.appendChild(dot);
+  });
+
+  function updateDots() {
+    const dots = document.querySelectorAll(".dot");
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === current);
+    });
+  }
+
+  // Запуск
+
+  showSlide();
+
+</script>
+
+</body>
+</html>
